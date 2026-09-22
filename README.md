@@ -61,17 +61,24 @@ neither is the name of the plant. What is published is everything derived from
 the images: the 69 measured features per leaf, the labels given by the
 technicians who set the plant standard, and the trained model.
 
-Eight leaves are the exception, in `fotos_muestra/`: one for each bin of the
-cell, which covers both varieties and all four grades. They come with their 3D
-meshes so the simulated cell can actually run them, and they are copied byte for
-byte, so they measure exactly as they did. To measure one:
+Nine leaves are the exception, in `fotos_muestra/`: three wrapper, three XL left
+and three XR right, all Connecticut, all taken from the independent batch --- the
+same leaves the reported figures are measured on. They come with their 3D meshes,
+so the simulated cell can actually run them, and they are copied byte for byte,
+so they measure exactly as they did. To measure one:
 
-    python code/clasifica.py fotos_muestra/connecticut_capa/20260817_193902094_iOS.jpg
+    python code/clasifica.py fotos_muestra/capa/20260911_152039111_iOS.heic --ancho-cinta 43.8
 
-These eight belong to the training set, not to the independent batch, and that
-matters: running them end to end shows the chain is correctly wired, it does not
-measure accuracy. The accuracy figures come from `reproduce.py`, over leaves the
-model never saw.
+    capa 43.8    xl_izq 49.5    xr_der 48.9
+
+Give it the tape width of its folder, which is what `--ancho-cinta` is for:
+without it each photograph sets its own scale from its own tape and the areas
+shift by about 10 %, which is the scale, not the measurement. With it, what comes
+out is the row that leaf has in `results/lote_independiente/rasgos_112.csv`, to
+within 0.02 %.
+
+Nine leaves are nine leaves: they show the chain works end to end, they do not
+measure accuracy. That comes from `reproduce.py`, over all 112.
 
 The pipeline therefore splits in two:
 
@@ -162,10 +169,10 @@ The loop has two halves, started in this order, from the root of the repository:
 the pick-and-place programs; the agent grades it and answers with the bin. Both
 resolve their paths from the repository root, so neither needs editing.
 
-Run against a live station, the eight leaves come out like this: six of the
-eight graded correctly, four routed to their bin and four deferred for review.
-The two it got wrong were both deferred rather than dropped in the wrong bin,
-which is the abstention rule doing its job.
+Run against a live station, the nine leaves come out like this: eight of the
+nine graded correctly, six routed to their bin and three deferred for review.
+The one it got wrong was deferred rather than dropped in the wrong bin, which is
+the abstention rule doing its job.
 
 ## Citation
 
