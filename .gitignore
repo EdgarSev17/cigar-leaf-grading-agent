@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+.venv/
+.cache/
+
+# Las fotografias de la planta NO se publican. Ver el README.
+*.heic
+*.HEIC
+*.jpg
+*.jpeg
+!results/figuras/*.png
+
+# Salidas que genera el propio codigo al correr.
+# OJO: las dos carpetas SESION_* que si van al repositorio estan mas abajo,
+# porque `code/reproduce.py` las necesita para reproducir el articulo.
+out/celda/entorno1/*.obj
+out/celda/entorno1/*.mtl
+out/celda/*.rdk
+out/SESION_*/
+!out/SESION_CNT_112_GROSOR3/
+!out/SESION_CNT_112_GROSOR3/*.csv
+!out/SESION_HABANO_GROSOR3/
+!out/SESION_HABANO_GROSOR3/*.csv
