@@ -35,6 +35,7 @@ One command reproduces all of it, without photographs. See **Reproducing**.
     out/        the measured features the pipeline reads, and the trained model
     dataset/    labels, dubious cases and the human corrections
     results/    the independent batch, the article's figures, CIFRAS.md
+    fotos_muestra/  nine leaves, three per grade, to run the measuring half
     robodk/     the simulated cell: the .rdk station, protocol and builder
 
 Notable files:
@@ -58,6 +59,25 @@ The image base belongs to a tobacco processing plant and is not published, and
 neither is the name of the plant. What is published is everything derived from
 the images: the 69 measured features per leaf, the labels given by the
 technicians who set the plant standard, and the trained model.
+
+Nine leaves are the exception, in `fotos_muestra/`: three of each grade the
+independent batch contains, copied byte for byte so that they measure exactly as
+they did. They are there so the measuring half can be run and checked, not for
+training. To measure one, give it the tape width its folder was measured with,
+which is what `--ancho-cinta` is for:
+
+    python code/clasifica.py fotos_muestra/capa/20260911_152039111_iOS.heic --ancho-cinta 43.8
+
+    capa 43.8    xl_izq 49.5    xr_der 48.9
+
+The values that come out are the row that leaf has in
+`results/lote_independiente/rasgos_112.csv`: areas agree to within 0.02 %, the
+rest is the rounding of the published decimals. Without `--ancho-cinta` each
+photograph sets its own scale from its own tape and the areas shift by about
+10 %, which is the scale, not the measurement.
+
+The batch contains no binder leaf --- the article says so among its limitations ---
+so neither does the sample.
 
 The pipeline therefore splits in two:
 

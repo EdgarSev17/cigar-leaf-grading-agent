@@ -3,12 +3,13 @@ __pycache__/
 .venv/
 .cache/
 
-# Las fotografias de la planta NO se publican. Ver el README.
+# Las fotografias de la planta NO se publican, salvo las nueve de muestra.
 *.heic
 *.HEIC
 *.jpg
 *.jpeg
 !results/figuras/*.png
+!fotos_muestra/**/*.heic
 
 # Salidas que genera el propio codigo al correr.
 # OJO: las dos carpetas SESION_* que si van al repositorio estan mas abajo,
