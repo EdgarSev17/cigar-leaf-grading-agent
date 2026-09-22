@@ -1,0 +1,11 @@
+# Normalise line endings, so the repository is the same on Windows and Linux.
+* text=auto eol=lf
+
+# Binary, never touched.
+*.heic binary
+*.HEIC binary
+*.png  binary
+*.jpg  binary
+*.pdf  binary
+*.rdk  binary
+*.joblib binary
