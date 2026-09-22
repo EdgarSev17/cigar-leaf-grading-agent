@@ -128,7 +128,13 @@ which is the same cell before the bins were renumbered from eleven to nine.
 Needs RoboDK installed. If it is not in `C:/RoboDK`, set `ROBODK_DIR` first:
 
     set ROBODK_DIR=D:/Programas/RoboDK
-    python code/agente_entorno1.py --n 10
+    python code/agente_entorno1.py --n 9
+
+The queue it reads, `out/celda/entorno1/cola_hojas.csv`, holds the nine sample
+leaves, and the cell decides on the photographs themselves, not on renders: the
+camera raises the event and the image is what gets graded. Those nine are
+therefore the whole of what can be run here; the rest of the batch stays as
+measured features.
 
 The agent sends the destination bin as a 4-bit code and waits for
 acknowledgement; the robot decides nothing and the agent moves nothing. The
