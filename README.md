@@ -36,7 +36,8 @@ One command reproduces all of it, without photographs. See **Reproducing**.
     dataset/    labels, dubious cases and the human corrections
     results/    the independent batch, the article's figures, CIFRAS.md
     fotos_muestra/  nine leaves, three per grade, to run the measuring half
-    robodk/     the simulated cell: the .rdk station, protocol and builder
+    robodk/     the simulated cell: the .rdk station, the control script,
+                the protocol and the builder
 
 Notable files:
 
@@ -60,24 +61,17 @@ neither is the name of the plant. What is published is everything derived from
 the images: the 69 measured features per leaf, the labels given by the
 technicians who set the plant standard, and the trained model.
 
-Nine leaves are the exception, in `fotos_muestra/`: three of each grade the
-independent batch contains, copied byte for byte so that they measure exactly as
-they did. They are there so the measuring half can be run and checked, not for
-training. To measure one, give it the tape width its folder was measured with,
-which is what `--ancho-cinta` is for:
+Eight leaves are the exception, in `fotos_muestra/`: one for each bin of the
+cell, which covers both varieties and all four grades. They come with their 3D
+meshes so the simulated cell can actually run them, and they are copied byte for
+byte, so they measure exactly as they did. To measure one:
 
-    python code/clasifica.py fotos_muestra/capa/20260911_152039111_iOS.heic --ancho-cinta 43.8
+    python code/clasifica.py fotos_muestra/connecticut_capa/20260817_193902094_iOS.jpg
 
-    capa 43.8    xl_izq 49.5    xr_der 48.9
-
-The values that come out are the row that leaf has in
-`results/lote_independiente/rasgos_112.csv`: areas agree to within 0.02 %, the
-rest is the rounding of the published decimals. Without `--ancho-cinta` each
-photograph sets its own scale from its own tape and the areas shift by about
-10 %, which is the scale, not the measurement.
-
-The batch contains no binder leaf --- the article says so among its limitations ---
-so neither does the sample.
+These eight belong to the training set, not to the independent batch, and that
+matters: running them end to end shows the chain is correctly wired, it does not
+measure accuracy. The accuracy figures come from `reproduce.py`, over leaves the
+model never saw.
 
 The pipeline therefore splits in two:
 
@@ -159,12 +153,19 @@ The agent sends the destination bin as a 4-bit code and waits for
 acknowledgement; the robot decides nothing and the agent moves nothing. The
 protocol is in `robodk/LEEME_Entorno1.md`.
 
-One caveat, because it will bite on another machine: a script embedded inside
-the station writes the leaf queue to an absolute path
-(`D:/tesis-tabaco/out/celda/entorno1/cola_hojas.csv`). Open the station in
-RoboDK, look under `Scripts`, and point it at your own copy. The rest of the
-repository has no absolute paths; this one lives inside the `.rdk` and cannot be
-resolved from outside it.
+The loop has two halves, started in this order, from the root of the repository:
+
+    python code/agente_entorno1.py --n 8        # first: it waits
+    python robodk/Control_Senales.py            # then: it drives the cell
+
+`Control_Senales.py` moves the belt, stops each leaf under the camera and runs
+the pick-and-place programs; the agent grades it and answers with the bin. Both
+resolve their paths from the repository root, so neither needs editing.
+
+Run against a live station, the eight leaves come out like this: six of the
+eight graded correctly, four routed to their bin and four deferred for review.
+The two it got wrong were both deferred rather than dropped in the wrong bin,
+which is the abstention rule doing its job.
 
 ## Citation
 

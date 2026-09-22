@@ -17,6 +17,9 @@ pillow==12.3.0
 pillow-heif==1.5.0
 scikit-image==0.26.0
 
+# La celda simulada (opcional): el API de RoboDK se instala por pip.
+robodk==6.0.1
+
 # La linea base convolucional, que es la unica pieza que pide tarjeta grafica.
 # Se instala aparte, con la rueda que corresponda a tu CUDA:
 #   torch==2.11.0  torchvision==0.26.0
