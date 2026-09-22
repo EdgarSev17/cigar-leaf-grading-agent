@@ -1,8 +1,8 @@
 # Results of a full run
 
-Produced by `python run_all.py` on 2026-09-22 15:27.
+Produced by `python run_all.py` on 2026-09-22 15:49.
 
-Python 3.12.10, 441 s.
+Python 3.12.10, 9 s.
 
 ## The article's figures, checked
 
@@ -52,46 +52,6 @@ INDEPENDENT BATCH: 672 decisions  (6 retrainings x 112 leaves)
       sets aside 30 %   error   8.9 %
 
    The article's operating point is the 0.60 threshold.
-```
-
-### Cross-validated figures
-
-```
-hojas: 627   rasgos de hoja: 64   de fondo: 9
-reparto: {np.str_('banda'): 91, np.str_('capa'): 238, np.str_('media_banda'): 100, np.str_('xl_izq'): 89, np.str_('xr_der'): 109}
-omitidas por decision del experto (PROGRESO 50): 9
-semillas de particion: 15
-
-==============================================================================
-LAS CIFRAS, CON 15 SEMILLAS DE PARTICION
-==============================================================================
-
-                                            n    base            exactitud
-   ------------------------------------------------------------------------
-   las cinco calidades                    627   38.0 %  80.6 %  [78.9 - 81.5]
-      balanceada                                        75.7 %  [73.9 - 76.9]
-      CONTROL: solo el fondo                            65.8 %  [64.3 - 67.1]
-                                        supera al fondo por 14.8 puntos
-
-   cinco calidades, solo Connecticut      242   52.5 %  84.0 %  [82.2 - 85.5]
-      balanceada                                        71.1 %  [67.1 - 73.8]
-      CONTROL: solo el fondo                            76.3 %  [75.2 - 78.5]
-                                        supera al fondo por 7.7 puntos
-
-   cinco calidades, solo Habano           385   28.8 %  84.5 %  [82.3 - 86.2]
-      balanceada                                        83.2 %  [81.1 - 85.2]
-      CONTROL: solo el fondo                            61.1 %  [59.0 - 63.4]
-                                        supera al fondo por 23.4 puntos
-
-   el par XL izq / XR der                 198   55.1 %  90.7 %  [88.4 - 92.4]
-      balanceada                                        90.7 %  [88.3 - 92.3]
-      CONTROL: solo el fondo                            66.0 %  [61.6 - 70.2]
-                                        supera al fondo por 24.7 puntos
-
-   Recordatorio de PROGRESO 45.2: el rango de arriba NO es un intervalo de
-   confianza estadistico, es lo que se mueve el numero al cambiar la
-   particion con los MISMOS datos. Cualquier comparacion antes/despues
-   menor que esa anchura no significa nada.
 ```
 
 ### One photograph, end to end

@@ -64,6 +64,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedGroupKFold, cross_val_predict
+import particiones as PART                                           # noqa: E402
 from rutas import REPO_ROOT  # repository root
 
 OUT = REPO_ROOT / "out"
@@ -293,7 +294,7 @@ def main():
         acu = {nm: ([], []) for nm, _ in METODOS}
         for sem in range(N_SEM):
             k = min(5, min(len(set(gv[yv == c])) for c in set(yv)))
-            ext = StratifiedGroupKFold(n_splits=k, shuffle=True, random_state=sem)
+            ext = PART.Particion(k, sem, "calibra_ext")
             for tr, te in ext.split(Xv, yv, groups=gv):
                 mod = mk("logistica", sem).fit(Xv[tr], yv[tr])
                 pp = mod.predict_proba(Xv[te])

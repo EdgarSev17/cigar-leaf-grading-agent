@@ -30,6 +30,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedGroupKFold, cross_val_predict
+import particiones as PART                                           # noqa: E402
 from sklearn.metrics import balanced_accuracy_score
 from rutas import REPO_ROOT  # repository root
 
@@ -128,7 +129,7 @@ def mk(nombre, sem):
 def corre(XX, mask, sem):
     yy, gg = y[mask], grp[mask]
     k = min(5, min(len(set(gg[yy == c])) for c in set(yy)))
-    cv = StratifiedGroupKFold(n_splits=k, shuffle=True, random_state=sem)
+    cv = PART.Particion(k, sem, "cifras")
     mejor_ac, mejor_pr = -1.0, None
     for nm in ("logistica", "arboles"):
         pr = cross_val_predict(mk(nm, sem), XX[mask], yy, cv=cv, groups=gg)

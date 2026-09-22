@@ -64,6 +64,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedGroupKFold, cross_val_predict
+import particiones as PART                                           # noqa: E402
 import joblib
 from rutas import REPO_ROOT  # repository root
 
@@ -292,7 +293,7 @@ def main():
             except Exception:
                 pass                      # cache corrupta: se recalcula
         k = min(5, min(len(set(gg[yy == c])) for c in set(yy)))
-        part = StratifiedGroupKFold(n_splits=k, shuffle=True, random_state=sem)
+        part = PART.Particion(k, sem, "entrena")
         if rej:
             # LA REJILLA, FUERA DE MUESTRA. La calibracion tiene que medir el
             # modelo que se GUARDA; si aqui se midiera el plano, la tabla de

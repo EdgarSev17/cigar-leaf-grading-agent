@@ -194,6 +194,32 @@ Give it the tape width its folder was measured with, which is what
 0.02 %. Without it, each photograph sets its own scale from its own tape and the
 areas shift by about 10 %: that is the scale, not the measurement.
 
+## The partitions are on disk, not regenerated
+
+Fixing the seed already makes a split deterministic, but it leaves it depending
+on the version of scikit-learn, on the order the rows happen to be in, and on
+nobody ever touching the call. So the folds are written down instead, one JSON
+file per partition under `results/particiones/`, holding **the leaf identifiers**
+of each fold rather than row numbers: leaf ids survive a reordering of the tables
+and a person can read them.
+
+    {
+      "nombre": "cifras_k5_sem0_0373e3ca",
+      "n_splits": 5, "random_state": 0,
+      "n_filas": 627, "n_grupos": 627,
+      "huella_grupos": "0373e3caacdaf1ca",
+      "folds": [{"test": ["hoja_0014", "hoja_0022", ...]}, ...]
+    }
+
+`code/particiones.py` is a drop-in for `StratifiedGroupKFold`: the first run
+computes the folds and saves them, every run after that reads them back. Each
+file records a fingerprint of the group list it was built for, so if the data
+changes underneath, the run stops and says so instead of quietly producing
+different numbers.
+
+Verified: running the cross-validated figures with the folds computed, and then
+again with them read from disk, gives **byte-identical output**.
+
 ## Why the photographs are not here
 
 The image base belongs to a tobacco processing plant and is not published, and

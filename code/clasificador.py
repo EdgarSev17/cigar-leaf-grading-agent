@@ -55,6 +55,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedGroupKFold, cross_val_predict
+import particiones as PART                                           # noqa: E402
 from sklearn.metrics import (accuracy_score, balanced_accuracy_score,
                              confusion_matrix, classification_report)
 from rutas import REPO_ROOT  # repository root
@@ -423,7 +424,7 @@ def main(max_nuevas=0):
         k = min(5, min(len(set(gg[yy == c])) for c in set(yy)))
         if k < 2:
             return None
-        cv = StratifiedGroupKFold(n_splits=k, shuffle=True, random_state=0)
+        cv = PART.Particion(k, 0, "clasificador")
         mods = {
             "logistica": make_pipeline(SimpleImputer(strategy="median"),
                                        StandardScaler(),

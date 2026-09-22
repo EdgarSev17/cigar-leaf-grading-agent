@@ -13,7 +13,8 @@ still checks every figure the article reports, in about ten seconds.
 What it does, in order:
 
     1. checks the environment against requirements.txt
-    2. checks the data loads and matches what the article declares
+    2. checks the data loads, matches what the article declares, and that
+       the saved partitions are there
     3. trains and evaluates the article's protocol: six retrainings, each one
        measured on the 112 leaves of the independent batch
     4. recomputes the cross-validated figures over the 627 training leaves
@@ -148,6 +149,13 @@ def main():
     print("  the article declares 112 leaves: 71 wrapper, 22 XL left, 19 XR right")
     if len(lote) != 112:
         raise SystemExit("  The batch does not have 112 leaves.")
+
+    part = sorted((RAIZ / "results" / "particiones").glob("*.json"))
+    if part:
+        print("  saved partitions: %d files, read from disk, never regenerated"
+              % len(part))
+    else:
+        print("  saved partitions: none yet; they will be computed and written")
 
     # ---------------------------------------------------------------- 3
     if a.retrain:
