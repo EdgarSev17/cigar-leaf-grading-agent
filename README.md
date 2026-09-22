@@ -9,6 +9,40 @@ working on pixels, resolves the grade through three chained questions, abstains
 when its confidence is low, and routes the leaf to a bin with a simulated KUKA
 arm in RoboDK.
 
+## Quick start
+
+Python 3.12 and nothing else. One command runs the whole thing and tells you
+whether what came out is what the article says:
+
+    git clone https://github.com/EdgarSev17/cigar-wrapper-agent-that-abstains
+    cd cigar-wrapper-agent-that-abstains
+    pip install -r requirements.txt
+    python run_all.py
+
+About eight minutes on a laptop. No photographs to download, no graphics card,
+no RoboDK, nothing to run in a particular order. `python run_all.py --quick`
+does the same in ten seconds by skipping the fifteen-seed cross-validation.
+
+It ends with this table, which is the point of the command:
+
+    figure                                    article   this run
+    ----------------------------------------------------------------------
+    accuracy on the independent batch            84.8       84.8   matches
+    Cohen's kappa                               0.705      0.705   matches
+    at threshold 0.60, leaves decided            70.5       70.5   matches
+    at threshold 0.60, accuracy on those         91.1       91.1   matches
+    wrapper                                      91.5       91.5   matches
+    XL left                                      68.2       68.2   matches
+    XR right                                     78.9       78.9   matches
+    error setting aside 10 %                     11.9       11.9   matches
+    error setting aside 30 %                      8.9        8.9   matches
+
+    Every figure matches the article.
+
+It exits 0 if every figure matches and 1 if any of them moved. The robotic cell
+is deliberately **not** part of this: verifying a paper should not require a
+commercial licence. It is section 2 below, for whoever wants it.
+
 ## Key results
 
 Measured on an independent batch of 112 Connecticut leaves, photographed on
