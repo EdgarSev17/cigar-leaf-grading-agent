@@ -82,11 +82,11 @@ from sklearn.impute import SimpleImputer                              # noqa: E4
 from sklearn.linear_model import LogisticRegression                   # noqa: E402
 from sklearn.pipeline import make_pipeline                            # noqa: E402
 from sklearn.preprocessing import StandardScaler                      # noqa: E402
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
+OUT = REPO_ROOT / "out"
 DEST = OUT / "modelo_arbol"
-ETIQUETAS = REPO_RAIZ / "fotos" / "habano_prueba"
+ETIQUETAS = REPO_ROOT / "fotos" / "habano_prueba"
 CARPETA_CLASE = {"banda": "banda", "capa": "capa", "xl izquierdo": "xl_izq",
                  "xr derecho": "xr_der"}
 CLASES = ("capa", "banda", "xl_izq", "xr_der")
@@ -191,7 +191,7 @@ def lee_carpeta(carpeta, nom, idx, con_etiqueta=True):
         # SIN FOTOS (2026-09-22). Las fotografias de la planta no se publican,
         # asi que las mismas etiquetas que estaban en los nombres de las
         # carpetas de imagenes viajan en un CSV. El resultado es identico.
-        f_etq = REPO_RAIZ / "dataset" / "etiquetas_habano.csv"
+        f_etq = REPO_ROOT / "dataset" / "etiquetas_habano.csv"
         if not f_etq.exists():
             raise SystemExit("faltan las etiquetas: %s" % f_etq)
         for r in csv.DictReader(open(f_etq, encoding="utf-8")):

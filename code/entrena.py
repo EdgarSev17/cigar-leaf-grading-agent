@@ -65,10 +65,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedGroupKFold, cross_val_predict
 import joblib
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
-RAIZ = REPO_RAIZ / "dataset"
+OUT = REPO_ROOT / "out"
+RAIZ = REPO_ROOT / "dataset"
 DIR_MODELO = OUT / "modelo"
 # Por debajo de esto la acumulada de un cajon es ruido y el cajon se queda sin
 # curva propia: entonces no se le veta nada y decide la regla de siempre.

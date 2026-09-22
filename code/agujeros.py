@@ -99,10 +99,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from zonas import (perfil, extremo_base, lamina, bandas,
                    ancho_cinta_por_carpeta)
 from segmentacion import mascara_marca
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-RAIZ = REPO_RAIZ / "dataset"
-OUT = REPO_RAIZ / "out"
+RAIZ = REPO_ROOT / "dataset"
+OUT = REPO_ROOT / "out"
 LADO = 1024
 PULG_POR_ANCHO_CINTA = 1.11        # PROGRESO 26, +-15 %
 

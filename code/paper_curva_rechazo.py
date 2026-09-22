@@ -52,12 +52,12 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt                                      # noqa: E402
 import numpy as np                                                   # noqa: E402
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
+OUT = REPO_ROOT / "out"
 FUENTE = OUT / "SESION_FINAL_112" / "DECISION_FINAL_112.csv"
 DEST = OUT / "PAPER_CURVA_RECHAZO"
-COPIA = REPO_RAIZ / "results" / "figuras"
+COPIA = REPO_ROOT / "results" / "figuras"
 
 TINTA = "#1a1a1a"
 GRIS = "#7a7a7a"

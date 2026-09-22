@@ -59,10 +59,10 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-RAIZ = REPO_RAIZ / "dataset"
-OUT = REPO_RAIZ / "out"
+RAIZ = REPO_ROOT / "dataset"
+OUT = REPO_ROOT / "out"
 COLA = OUT / "celda" / "entorno1" / "cola_hojas.csv"
 REGISTRO = OUT / "celda" / "entorno1" / "registro_agente.csv"
 # EL REGISTRO QUE PIDE LA CATEDRA (2026-09-15). Una linea JSON por decision con

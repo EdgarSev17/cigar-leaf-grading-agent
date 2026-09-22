@@ -33,9 +33,9 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 import arbol_habano as AH                                             # noqa: E402
 import paper_datos as D                                               # noqa: E402
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
+OUT = REPO_ROOT / "out"
 CLASES = ("capa", "banda", "xl_izq", "xr_der")
 SEM = 6
 

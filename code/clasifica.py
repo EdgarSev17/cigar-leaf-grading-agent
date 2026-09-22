@@ -67,9 +67,9 @@ try:                                                               # noqa: E402
     from rasgos_foto import mide
 except ImportError:          # reproducir desde rasgos medidos no usa OpenCV
     mide = None
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
+OUT = REPO_ROOT / "out"
 DIR_MODELO = OUT / "modelo"
 DIR_ARBOL = OUT / "modelo_arbol"
 

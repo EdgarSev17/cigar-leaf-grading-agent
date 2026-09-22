@@ -1,25 +1,25 @@
-# Version de Python con la que se midio todo: 3.12.10
+# Python 3.12.10 is the version everything was measured with.
 #
-# El nucleo -- entrenar, clasificar desde rasgos medidos y sacar las cifras --
-# solo necesita estos cuatro:
+# The core -- training, grading from measured features, and the reported
+# figures -- needs only these four:
 numpy==2.5.2
 scipy==1.18.1
 scikit-learn==1.9.0
 joblib==1.5.3
 
-# Figuras del articulo:
+# The article's figures:
 matplotlib==3.11.1
 
-# Solo para MEDIR rasgos desde una fotografia. Como las fotografias no se
-# publican, no hacen falta para reproducir las cifras:
+# Only needed to MEASURE features from a photograph. The reported figures come
+# from the published feature tables, so these are not needed to reproduce them:
 opencv-python-headless==5.0.0.93
 pillow==12.3.0
 pillow-heif==1.5.0
 scikit-image==0.26.0
 
-# La celda simulada (opcional): el API de RoboDK se instala por pip.
+# The simulated cell (optional): RoboDK's Python API installs from pip.
 robodk==6.0.1
 
-# La linea base convolucional, que es la unica pieza que pide tarjeta grafica.
-# Se instala aparte, con la rueda que corresponda a tu CUDA:
+# The convolutional baseline is the only part that needs a graphics card.
+# Install it separately, with the wheel that matches your CUDA:
 #   torch==2.11.0  torchvision==0.26.0

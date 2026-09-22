@@ -57,10 +57,10 @@ from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedGroupKFold, cross_val_predict
 from sklearn.metrics import (accuracy_score, balanced_accuracy_score,
                              confusion_matrix, classification_report)
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-RAIZ = REPO_RAIZ / "dataset"
-OUT = REPO_RAIZ / "out"
+RAIZ = REPO_ROOT / "dataset"
+OUT = REPO_ROOT / "out"
 LADO = 1024
 N_TRAMOS = 60
 FRAC_RABO = 0.18

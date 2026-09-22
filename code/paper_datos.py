@@ -54,9 +54,9 @@ import json
 from pathlib import Path
 
 import numpy as np
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-RAIZ = REPO_RAIZ
+RAIZ = REPO_ROOT
 OUT = RAIZ / "out"
 DATASET = RAIZ / "dataset"
 DIR_MODELO = OUT / "modelo"

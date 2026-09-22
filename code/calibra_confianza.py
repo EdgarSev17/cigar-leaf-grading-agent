@@ -64,10 +64,10 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedGroupKFold, cross_val_predict
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
-RAIZ = REPO_RAIZ / "dataset"
+OUT = REPO_ROOT / "out"
+RAIZ = REPO_ROOT / "dataset"
 N_SEM = int(sys.argv[1]) if len(sys.argv) > 1 else 10
 UMBRAL = 0.90          # el mismo de §60.7: acierto estimado para pasar sola
 MARGEN = 0.02          # coeficiente de seguridad del corte por conjunto (§63)

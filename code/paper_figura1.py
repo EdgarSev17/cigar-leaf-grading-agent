@@ -41,11 +41,11 @@ import numpy as np                                                  # noqa: E402
 from matplotlib.patches import (Circle, FancyArrowPatch,            # noqa: E402
                                 FancyBboxPatch, PathPatch, Polygon)
 from matplotlib.path import Path as MplPath                         # noqa: E402
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
+OUT = REPO_ROOT / "out"
 DEST = OUT / "PAPER_FIGURAS"
-COPIA = REPO_RAIZ / "results" / "figuras"
+COPIA = REPO_ROOT / "results" / "figuras"
 
 # --- IDIOMA (2026-09-20) -----------------------------------------------------
 # El paper se envia en ingles, asi que la figura tiene que existir en los dos

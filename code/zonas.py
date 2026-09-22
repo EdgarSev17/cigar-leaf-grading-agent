@@ -64,9 +64,9 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
+OUT = REPO_ROOT / "out"
 
 N_TRAMOS = 60
 FRAC_RABO = 0.18          # anchura por debajo de la cual el tramo es "rabo"

@@ -63,15 +63,15 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from rutas import REPO_RAIZ, ROBODK_RAIZ  # raiz del repositorio
-sys.path.insert(0, str(ROBODK_RAIZ / "Python"))
+from rutas import REPO_ROOT, ROBODK_ROOT  # repository root
+sys.path.insert(0, str(ROBODK_ROOT / "Python"))
 
 from celda_geom import (escribe_stl, caja, cilindro, recipiente,       # noqa: E402
                         barra_ventosas)
 
-OUT = REPO_RAIZ / "out"
+OUT = REPO_ROOT / "out"
 GEO = OUT / "celda" / "geom"
-LIB = ROBODK_RAIZ / "Library"
+LIB = ROBODK_ROOT / "Library"
 ROBOT = LIB / "Fanuc-M-710iC-50.robot"
 
 # ---------------------------------------------------------------- cotas (mm)

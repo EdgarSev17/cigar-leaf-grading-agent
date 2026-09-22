@@ -63,9 +63,9 @@ from scipy.ndimage import median_filter
 sys.path.insert(0, str(Path(__file__).parent))
 from zonas import LIM_PEQUENA, LIM_GRANDE, VENA_ANCHOS, FRAC_RABO     # noqa: E402
 from clasificador import PULG_POR_ANCHO_CINTA                          # noqa: E402
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
+OUT = REPO_ROOT / "out"
 MM_POR_PULG = 25.4
 VENA_MM = VENA_ANCHOS * PULG_POR_ANCHO_CINTA * MM_POR_PULG   # 16.9 mm de ancho
 

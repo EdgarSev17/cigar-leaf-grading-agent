@@ -13,8 +13,8 @@ arm in RoboDK.
 
 Measured on an independent batch of 112 Connecticut leaves, photographed on
 another occasion, under different light, and never seen by the model. Every
-figure below is the mean of **six retrainings**, that is 672 decisions, which is
-the protocol the article reports.
+figure is the mean of **six retrainings**, that is 672 decisions, which is the
+protocol the article reports.
 
 | | |
 |---|---|
@@ -27,152 +27,181 @@ the protocol the article reports.
 | Cost of the confident model | gradient boosted trees let 17 misgraded leaves through above 0.90 confidence, logistic regression 7 |
 | RoboDK cell | 9 bins, ten generated programs, no collisions |
 
-One command reproduces all of it, without photographs. See **Reproducing**.
-
 ## What is in this repository
 
-    code/       the pipeline: 26 modules, no absolute paths
-    out/        the measured features the pipeline reads, and the trained model
-    dataset/    labels, dubious cases and the human corrections
-    results/    the independent batch, the article's figures, CIFRAS.md
-    fotos_muestra/  nine leaves, three per grade, to run the measuring half
-    robodk/     the simulated cell: the .rdk station, the control script,
-                the protocol and the builder
+    code/            the pipeline: 26 modules, no absolute paths
+    out/             the measured features the pipeline reads, and the model
+    dataset/         labels, dubious cases and the human corrections
+    results/         the independent batch, the article's figures, CIFRAS.md
+    fotos_muestra/   nine leaves, three per grade, with their 3D meshes
+    robodk/          the station, the control script, the signal protocol
 
 Notable files:
 
-- `code/reproduce.py` — reproduces Table III, Table IV and Figure 2 of the
-  article in one pass, from measured features, without photographs.
-- `code/entrena.py` — trains variety and grade models from the feature tables.
-- `code/clasifica.py` — the decision itself: three chained questions, the zero
-  rule, the abstention threshold (`PISO_ARBOL = 0.60`).
-- `code/cifras.py` — the cross-validated figures over the 627 training leaves.
-- `out/celda/entorno1/logs/decisiones.jsonl` — one JSON line per decision the
+- `code/reproduce.py` - reproduces Table III, Table IV and Figure 2 in one pass.
+- `code/entrena.py` - trains variety and grade models from the feature tables.
+- `code/clasifica.py` - the decision: three chained questions, the zero rule,
+  the abstention threshold (`PISO_ARBOL = 0.60`).
+- `code/cifras.py` - the cross-validated figures over the 627 training leaves.
+- `out/celda/entorno1/logs/decisiones.jsonl` - one JSON line per decision the
   agent took in the cell: what it perceived, what it scored, what it decided and
-  what it cost. This is the audit trail; the agent's behaviour can be checked
-  against it rather than taken on trust.
-- `robodk/LEEME_Entorno1.md` — the cell: 9 bins on a 1600 mm arc, the 4-bit
-  signal protocol, and which file owns each number.
+  what it cost. The agent's behaviour can be checked against it rather than
+  taken on trust.
 
-## Why the photographs are not here
+## 1. Reproducing the reported figures
 
-The image base belongs to a tobacco processing plant and is not published, and
-neither is the name of the plant. What is published is everything derived from
-the images: the 69 measured features per leaf, the labels given by the
-technicians who set the plant standard, and the trained model.
+Needs Python 3.12. No photographs, no RoboDK, no graphics card. Under a minute.
 
-Nine leaves are the exception, in `fotos_muestra/`: three wrapper, three XL left
-and three XR right, all Connecticut, all taken from the independent batch --- the
-same leaves the reported figures are measured on. They come with their 3D meshes,
-so the simulated cell can actually run them, and they are copied byte for byte,
-so they measure exactly as they did. To measure one:
+**Step 1.** Get the repository and install the dependencies:
 
-    python code/clasifica.py fotos_muestra/capa/20260911_152039111_iOS.heic --ancho-cinta 43.8
-
-    capa 43.8    xl_izq 49.5    xr_der 48.9
-
-Give it the tape width of its folder, which is what `--ancho-cinta` is for:
-without it each photograph sets its own scale from its own tape and the areas
-shift by about 10 %, which is the scale, not the measurement. With it, what comes
-out is the row that leaf has in `results/lote_independiente/rasgos_112.csv`, to
-within 0.02 %.
-
-Nine leaves are nine leaves: they show the chain works end to end, they do not
-measure accuracy. That comes from `reproduce.py`, over all 112.
-
-The pipeline therefore splits in two:
-
-- **photograph → features** (`rasgos_foto.py`, `segmentacion.py`, `zonas.py`,
-  `agujeros.py`, `manchas.py`, `sudada.py`) is published and readable, but
-  cannot be run here, because it needs the images.
-- **features → grade → decision → routing** is fully reproducible, and it is
-  the half the article's claims rest on.
-
-## Reproducing
-
-Python 3.12. From the root of the repository:
-
+    git clone <this repository>
+    cd <this repository>
     pip install -r requirements.txt
+
+**Step 2.** Run it:
+
     python code/reproduce.py
 
-Takes under a minute on a laptop and needs no graphics card. It prints the
-accuracy and kappa of the abstract, Table III (per grade), Table IV (how many
-leaves the system decides and how well it does on them) and the four points of
-Figure 2.
+**Step 3.** Read the output. It prints, in this order:
 
-**The numbers will be close but need not be identical**, and the article is
-written that way on purpose: partitions are drawn at random, so what is reported
-is the mean over six retrainings and, elsewhere, the range over fifteen. A
-difference smaller than that range means nothing. On the machine used for the
-article the command above prints 84.8 % exactly.
+- the accuracy and Cohen's kappa of the abstract, **84.8 %** and **0.705**;
+- Table IV, how many leaves the system decides and how well it does on them, at
+  the 0.60, 0.70 and 0.80 thresholds and setting aside the least confident 10 %
+  and 20 %;
+- Table III, the breakdown by grade;
+- the four points of Figure 2.
+
+**What you should see.** The same figures as the article, to the decimal,
+because the seeds are fixed. If you change `--semillas` they will move a little;
+that is the point of reporting a mean over six rather than a single fit.
+Classifying the same batch with the single stored model in `out/modelo/` gives
+86.6 % instead: both are correct, they measure different things, and the article
+cites the mean.
 
 Two other entry points:
 
     python code/entrena.py --familia logistica --sin-clase media_banda
     python code/cifras.py
 
-Both options of the first matter: without `--familia logistica` a margin of 0.2
-points can flip the model family, and with it 39 points of accuracy;
-`--sin-clase media_banda` because the final model leaves that grade out.
+The first retrains from the feature tables; both of its options matter, because
+without `--familia logistica` a margin of 0.2 points can flip the model family,
+and with it 39 points of accuracy. The second recomputes the cross-validated
+figures over the 627 training leaves.
 
-Note that `reproduce.py` retrains from the feature tables, while the model
-stored in `out/modelo/` is a single fit. Classifying this batch with that one
-stored model gives 86.6 %; the 84.8 % of the article is the mean of six, which
-is the defensible number and the one to cite.
+## 2. Running the simulated cell
 
-### What needs what
+Optional. Nothing in the reported figures depends on it; the cell is here
+because two claims in the article rest on it: that the ten generated programs
+show no collisions, and that every decision was executed in simulation.
 
-The figures the article reports come out of `reproduce.py`, which needs neither
-photographs nor RoboDK. The cell is in this repository because two claims in the
-article rest on it --- that the ten generated programs show no collisions, and
-that every decision was executed in simulation --- and a claim nobody can check
-is not worth making. But nothing in the results depends on having it installed,
-and no one should need commercial software to verify a paper.
+**RoboDK's free licence is enough.** Its camera is coarse, 3.05 x 6.02 mm per
+pixel, ten times cruder than the model measures at, but the camera only raises
+the event: the photograph is what gets graded.
 
-| to check | you need |
-|---|---|
-| the accuracy, kappa and abstention figures | Python and this repository |
-| that the measuring half really measures | the same, plus the nine sample photographs |
-| that the routing runs without collisions | the same, plus RoboDK |
+**Step 1.** Install RoboDK and its Python API:
 
-RoboDK's **free licence is enough**. Its camera is coarse --- 3.05 x 6.02 mm per
-pixel, ten times cruder than the model measures at --- but the camera only
-raises the event; the photograph is what gets graded.
+    pip install robodk
 
-### The robotic cell
+**Step 2.** Open the station `robodk/Entorno1_4clases.rdk` in RoboDK. It holds
+the KUKA IONTEC KR 120 R2700, the belt, the nine bins and the ten pick-and-place
+programs.
 
-The station is `robodk/Entorno1_4clases.rdk`: the nine-bin version, one bin per
-grade and variety plus one for review. The code's docstrings call it *Entorno1*,
-which is the same cell before the bins were renumbered from eleven to nine.
+**Step 3.** If RoboDK is not installed in `C:/RoboDK`, say where it is:
 
-Needs RoboDK installed. If it is not in `C:/RoboDK`, set `ROBODK_DIR` first:
+    set ROBODK_DIR=D:/Programas/RoboDK        (Windows)
+    export ROBODK_DIR=/opt/robodk             (Linux)
 
-    set ROBODK_DIR=D:/Programas/RoboDK
+**Step 4.** Start the agent first, from the root of the repository. It loads the
+model and waits:
+
     python code/agente_entorno1.py --n 9
 
-The queue it reads, `out/celda/entorno1/cola_hojas.csv`, holds the nine sample
-leaves, and the cell decides on the photographs themselves, not on renders: the
-camera raises the event and the image is what gets graded. Those nine are
-therefore the whole of what can be run here; the rest of the batch stays as
-measured features.
+**Step 5.** In a second terminal, from the same folder, start the cell:
 
-The agent sends the destination bin as a 4-bit code and waits for
-acknowledgement; the robot decides nothing and the agent moves nothing. The
-protocol is in `robodk/LEEME_Entorno1.md`.
+    python robodk/Control_Senales.py
 
-The loop has two halves, started in this order, from the root of the repository:
+**Step 6.** Watch. The belt carries one leaf to the camera and stops; the cell
+raises `HOJA_EN_CAMARA`; the agent grades the photograph and answers with the
+destination bin as a four-bit code; the cell acknowledges and runs
+`Recoger_Hoja` and `Dejar_Caja_NN`. The robot decides nothing and the agent
+moves nothing.
 
-    python code/agente_entorno1.py --n 8        # first: it waits
-    python robodk/Control_Senales.py            # then: it drives the cell
+**What you should see.** Run against a live station, the nine leaves come out
+like this:
 
-`Control_Senales.py` moves the belt, stops each leaf under the camera and runs
-the pick-and-place programs; the agent grades it and answers with the bin. Both
-resolve their paths from the repository root, so neither needs editing.
+    1/9  wrapper   -> says wrapper   conf 1.000   bin 2   OK
+    4/9  XL left   -> says wrapper   conf 0.745   code 9  deferred
+    5/9  XL left   -> says XL left   conf 0.992   bin 3   OK
+    9/9  XR right  -> says XR right  conf 0.936   bin 4   OK
 
-Run against a live station, the nine leaves come out like this: eight of the
-nine graded correctly, six routed to their bin and three deferred for review.
-The one it got wrong was deferred rather than dropped in the wrong bin, which is
-the abstention rule doing its job.
+Eight of the nine graded correctly, six routed to their bin, three deferred. The
+one it got wrong was deferred rather than dropped in the wrong bin, which is the
+abstention rule doing its job. Two it graded correctly were deferred anyway,
+below the threshold: that is the cost of coverage, and the other face of the
+same rule.
+
+Nine leaves are nine leaves. They show the chain works end to end; they do not
+measure accuracy. That comes from step 1, over all 112.
+
+Every decision is appended to `out/celda/entorno1/registro_agente.csv` and to
+`out/celda/entorno1/logs/decisiones.jsonl`.
+
+## 3. Checking a measurement yourself
+
+The nine leaves in `fotos_muestra/` are three wrapper, three XL left and three
+XR right, all Connecticut, all from the independent batch, the same leaves the
+reported figures are measured on. They are copied byte for byte, so they measure
+exactly as they did.
+
+    python code/clasifica.py fotos_muestra/capa/20260911_152039111_iOS.heic --ancho-cinta 43.8
+
+    wrapper 43.8    XL left 49.5    XR right 48.9
+
+Give it the tape width its folder was measured with, which is what
+`--ancho-cinta` is for. What comes out is the row that leaf has in
+`results/lote_independiente/rasgos_112.csv`, with areas agreeing to within
+0.02 %. Without it, each photograph sets its own scale from its own tape and the
+areas shift by about 10 %: that is the scale, not the measurement.
+
+## Why the photographs are not here
+
+The image base belongs to a tobacco processing plant and is not published, and
+neither is the name of the plant. What is published is everything derived from
+the images: the 69 measured features per leaf, the labels given by the
+technicians who set the plant standard, and the trained model. The nine sample
+leaves are the exception, so that the measuring half can be run and checked.
+
+The pipeline therefore splits in two:
+
+- **photograph to features** (`rasgos_foto.py`, `segmentacion.py`, `zonas.py`,
+  `agujeros.py`, `manchas.py`, `sudada.py`) is published and readable, and runs
+  on the nine sample leaves, but cannot be re-run over the whole set.
+- **features to grade to decision to routing** is fully reproducible, and it is
+  the half the article's claims rest on.
+
+## A note on language
+
+The article and this README are in English. The code, its comments and the
+column names of the data files are in Spanish, and they stay that way for a
+reason: the grade names are the categories the trained model was fitted with,
+and the column names are the keys the tables are joined on. Translating them
+would mean retraining the model and rewriting every table, which would defeat
+the purpose of publishing them. The terms you need:
+
+| in the code and data | in the article |
+|---|---|
+| `capa` | wrapper |
+| `banda` | binder |
+| `media_banda` | half-binder, left out of the system |
+| `xl_izq` | XL left |
+| `xr_der` | XR right |
+| `calidad` | grade |
+| `variedad` | variety |
+| `hoja` | leaf |
+| `rasgos` | features |
+| `cinta` | the reference tape that sets the scale |
+| `caja`, `bandeja` | bin |
+| `cola` | queue |
 
 ## Citation
 
@@ -181,7 +210,7 @@ the abstention rule doing its job.
                 cigar wrapper tobacco leaf by type and location of damage},
       author = {Sevilla, Edgar and Torre, Luis and Puerto, Roberto and Loo, Luis},
       year   = {2026},
-      note   = {Universidad Tecnol\'ogica de Honduras}
+      note   = {Universidad Tecnologica de Honduras}
     }
 
 ## License

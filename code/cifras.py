@@ -31,10 +31,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedGroupKFold, cross_val_predict
 from sklearn.metrics import balanced_accuracy_score
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-OUT = REPO_RAIZ / "out"
-RAIZ = REPO_RAIZ / "dataset"
+OUT = REPO_ROOT / "out"
+RAIZ = REPO_ROOT / "dataset"
 N_SEM = int(sys.argv[1]) if len(sys.argv) > 1 else 15
 
 DEF = ["n_agujeros", "n_roturas", "n_defectos", "area_def_pulg2", "frac_area_def",

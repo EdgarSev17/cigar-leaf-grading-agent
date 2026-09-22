@@ -66,10 +66,10 @@ from zonas import perfil, extremo_base, ancho_cinta_por_carpeta         # noqa: 
 from rasgos_foto import carga, rota_exp, ancho_cinta_de_la_foto, LADO   # noqa: E402
 from clasificador import PULG_POR_ANCHO_CINTA                           # noqa: E402
 import agujeros as AG                                                    # noqa: E402
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-RAIZ = REPO_RAIZ / "dataset"
-OUT = REPO_RAIZ / "out"
+RAIZ = REPO_ROOT / "dataset"
+OUT = REPO_ROOT / "out"
 DIR_MALLA = OUT / "mallas"
 MM_POR_PULG = 25.4
 AREA_MIN_AGUJERO_MM2 = 4.0      # menos de 2x2 mm no es un agujero, es ruido de mascara

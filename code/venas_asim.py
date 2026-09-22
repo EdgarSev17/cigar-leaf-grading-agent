@@ -68,10 +68,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from segmentacion import mascara_hoja, mascara_marca
 from zonas import perfil, extremo_base, lamina
 from agujeros import rota
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-RAIZ = REPO_RAIZ / "dataset"
-OUT = REPO_RAIZ / "out"
+RAIZ = REPO_ROOT / "dataset"
+OUT = REPO_ROOT / "out"
 QC = OUT / "qc_venas"
 LADO = 1400                 # las venas son finas: mas fino que la segmentacion
 

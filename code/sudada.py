@@ -93,10 +93,10 @@ pillow_heif.register_heif_opener()
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from segmentacion import mascara_hoja, mascara_marca                  # noqa: E402
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 
-RAIZ = REPO_RAIZ / "dataset"
-OUT = REPO_RAIZ / "out"
+RAIZ = REPO_ROOT / "dataset"
+OUT = REPO_ROOT / "out"
 SUD = RAIZ / "Hojas sudadas"
 LADO = 2048
 

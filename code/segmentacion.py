@@ -76,11 +76,11 @@ import cv2
 import numpy as np
 from PIL import Image
 import pillow_heif
-from rutas import REPO_RAIZ  # raiz del repositorio
+from rutas import REPO_ROOT  # repository root
 pillow_heif.register_heif_opener()
 
-RAIZ = REPO_RAIZ / "dataset"
-OUT = REPO_RAIZ / "out"
+RAIZ = REPO_ROOT / "dataset"
+OUT = REPO_ROOT / "out"
 LADO = 1024  # lado largo de trabajo; la mascara se guarda a esta escala
 
 # --- umbrales derivados de la tabla de arriba, puestos en medio de cada brecha
