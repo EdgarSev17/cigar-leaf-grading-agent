@@ -176,7 +176,7 @@ def main():
         RDK.setParam(n, "0")
 
     print("=" * 78)
-    print("AGENTE BRYAN  ·  enganchado a Entorno1  ·  %i hojas en la cola" % len(cola))
+    print("AGENTE  ·  enganchado a Entorno1  ·  %i hojas en la cola" % len(cola))
     print("=" * 78)
     # El mensaje dice LA POLITICA QUE DE VERDAD CORRE. Hasta el 15/09 anunciaba
     # la politica "prudente" (umbral sobre el acierto calibrado + veto al cajon)
