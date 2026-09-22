@@ -119,6 +119,25 @@ stored in `out/modelo/` is a single fit. Classifying this batch with that one
 stored model gives 86.6 %; the 84.8 % of the article is the mean of six, which
 is the defensible number and the one to cite.
 
+### What needs what
+
+The figures the article reports come out of `reproduce.py`, which needs neither
+photographs nor RoboDK. The cell is in this repository because two claims in the
+article rest on it --- that the ten generated programs show no collisions, and
+that every decision was executed in simulation --- and a claim nobody can check
+is not worth making. But nothing in the results depends on having it installed,
+and no one should need commercial software to verify a paper.
+
+| to check | you need |
+|---|---|
+| the accuracy, kappa and abstention figures | Python and this repository |
+| that the measuring half really measures | the same, plus the nine sample photographs |
+| that the routing runs without collisions | the same, plus RoboDK |
+
+RoboDK's **free licence is enough**. Its camera is coarse --- 3.05 x 6.02 mm per
+pixel, ten times cruder than the model measures at --- but the camera only
+raises the event; the photograph is what gets graded.
+
 ### The robotic cell
 
 The station is `robodk/Entorno1_4clases.rdk`: the nine-bin version, one bin per
