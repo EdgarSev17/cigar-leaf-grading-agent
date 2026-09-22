@@ -29,6 +29,7 @@ protocol the article reports.
 
 ## What is in this repository
 
+    run_all.py       the single command: runs everything, checks every figure
     code/            the pipeline: 26 modules, no absolute paths
     out/             the measured features the pipeline reads, and the model
     dataset/         labels, dubious cases and the human corrections
@@ -50,7 +51,7 @@ Notable files:
 
 ## 1. Reproducing the reported figures
 
-Needs Python 3.12. No photographs, no RoboDK, no graphics card. Under a minute.
+Needs Python 3.12. No photographs, no RoboDK, no graphics card.
 
 **Step 1.** Get the repository and install the dependencies:
 
@@ -58,11 +59,51 @@ Needs Python 3.12. No photographs, no RoboDK, no graphics card. Under a minute.
     cd <this repository>
     pip install -r requirements.txt
 
-**Step 2.** Run it:
+**Step 2.** Run everything with one command:
 
-    python code/reproduce.py
+    python run_all.py
 
-**Step 3.** Read the output. It prints, in this order:
+That is the whole thing, from the measured features to the results table: it
+checks the environment, checks the data matches what the article declares,
+trains and evaluates the article's protocol, recomputes the cross-validated
+figures, grades one photograph end to end, and writes `results/RESULTS.md`.
+About eight minutes on a laptop; `python run_all.py --quick` does the same in
+ten seconds by skipping the fifteen-seed cross-validation, which is the slow
+part.
+
+**Step 3.** Read the last table it prints. This is the point of the command: it
+does not only run, it compares every figure against what the article reports.
+
+    figure                                    article   this run
+    ----------------------------------------------------------------------
+    accuracy on the independent batch            84.8       84.8   matches
+    Cohen's kappa                               0.705      0.705   matches
+    at threshold 0.60, leaves decided            70.5       70.5   matches
+    at threshold 0.60, accuracy on those         91.1       91.1   matches
+    wrapper                                      91.5       91.5   matches
+    XL left                                      68.2       68.2   matches
+    XR right                                     78.9       78.9   matches
+    error setting aside 10 %                     11.9       11.9   matches
+    error setting aside 30 %                      8.9        8.9   matches
+
+`run_all.py` exits 0 if every figure matches and 1 if any of them does not, so
+it can be dropped into a continuous integration job as it stands. A full run is
+committed in `results/RESULTS.md`, so the output can be read without running
+anything.
+
+**What the single command runs.** Each step can also be run on its own:
+
+| | |
+|---|---|
+| `python code/reproduce.py` | the article's protocol: six retrainings, 672 decisions |
+| `python code/cifras.py` | the cross-validated figures over the 627 training leaves |
+| `python code/clasifica.py <photo>` | one leaf, from image to grade to bin |
+| `python code/entrena.py --familia logistica --sin-clase media_banda` | refits the model; `run_all.py --retrain` does this too |
+
+Both options of the last one matter: without `--familia logistica` a margin of
+0.2 points can flip the model family, and with it 39 points of accuracy.
+
+`code/reproduce.py` prints, in this order:
 
 - the accuracy and Cohen's kappa of the abstract, **84.8 %** and **0.705**;
 - Table IV, how many leaves the system decides and how well it does on them, at
@@ -72,21 +113,11 @@ Needs Python 3.12. No photographs, no RoboDK, no graphics card. Under a minute.
 - the four points of Figure 2.
 
 **What you should see.** The same figures as the article, to the decimal,
-because the seeds are fixed. If you change `--semillas` they will move a little;
+because the seeds are fixed. If you change `--seeds` they will move a little;
 that is the point of reporting a mean over six rather than a single fit.
 Classifying the same batch with the single stored model in `out/modelo/` gives
 86.6 % instead: both are correct, they measure different things, and the article
 cites the mean.
-
-Two other entry points:
-
-    python code/entrena.py --familia logistica --sin-clase media_banda
-    python code/cifras.py
-
-The first retrains from the feature tables; both of its options matter, because
-without `--familia logistica` a margin of 0.2 points can flip the model family,
-and with it 39 points of accuracy. The second recomputes the cross-validated
-figures over the 627 training leaves.
 
 ## 2. Running the simulated cell
 
