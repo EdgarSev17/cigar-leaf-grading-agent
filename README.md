@@ -14,8 +14,8 @@ arm in RoboDK.
 Python 3.12 and nothing else. One command runs the whole thing and tells you
 whether what came out is what the article says:
 
-    git clone https://github.com/EdgarSev17/cigar-wrapper-agent-that-abstains
-    cd cigar-wrapper-agent-that-abstains
+    git clone https://github.com/EdgarSev17/cigar-leaf-grading-agent
+    cd cigar-leaf-grading-agent
     pip install -r requirements.txt
     python run_all.py
 
