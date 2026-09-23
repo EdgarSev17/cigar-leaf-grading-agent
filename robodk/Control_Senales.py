@@ -79,6 +79,15 @@ REGISTRO = os.path.join(CARPETA, 'registro_clasificacion.csv')
 REPO_RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COLA = os.path.join(REPO_RAIZ, 'out', 'celda', 'entorno1', 'cola_hojas.csv')
 
+# Se puede pasar otra cola como argumento:
+#     python robodk/Control_Senales.py out/celda/entorno1/cola_demo_20.csv
+import sys as _sys
+if len(_sys.argv) > 1:
+    COLA = _sys.argv[1]
+    if not os.path.isabs(COLA):
+        COLA = os.path.join(REPO_RAIZ, COLA)
+    print('cola: ' + COLA)
+
 ENTRADAS = ['TIPO_B0', 'TIPO_B1', 'TIPO_B2', 'TIPO_B3', 'TIPO_VALIDO']
 SALIDAS = ['HOJA_EN_CAMARA', 'ORDEN_RECIBIDA', 'ROBOT_OCUPADO', 'CAJA_DESTINO', 'ULTIMO_CODIGO']
 
